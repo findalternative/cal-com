@@ -4,7 +4,7 @@
     refs:
     - "refs/heads/main"
   fail_on_prepare_env_warning: true
-  resources: "XLARGE"
+  resources: "X2LARGE"
   actions:
   - action: "Execute yarn build"
     type: "BUILD"
