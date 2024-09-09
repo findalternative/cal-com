@@ -14,5 +14,7 @@
     - "cp .env.example .env"
     - "sed -i '/^NEXTAUTH_SECRET=$/c\\NEXTAUTH_SECRET='$(openssl rand -base64 32) .env"
     - "sed -i '/^CALENDSO_ENCRYPTION_KEY=$/c\\CALENDSO_ENCRYPTION_KEY='$(openssl rand -base64 32) .env"
+    - "export YARN_ENABLE_IMMUTABLE_INSTALLS=false"
     - "yarn"
     - "yarn build"
+    - "git restore yarn.lock"
