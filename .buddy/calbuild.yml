@@ -1,0 +1,18 @@
+- pipeline: "cal.com build"
+  events:
+    - type: "PUSH"
+      refs:
+      - "refs/heads/main"
+    fail_on_prepare_env_warning: true
+    actions:
+    - action: "Execute yarn build"
+      type: "BUILD"
+      docker_image_name: "library/node"
+      docker_image_tag: "20.9.0"
+      execute_commands:
+      - "cd baserepo"
+      - "cp .env.example .env"
+      - "sed -i '/^NEXTAUTH_SECRET=$/c\NEXTAUTH_SECRET='$(openssl rand -base64 32) .env"
+      - "sed -i '/^CALENDSO_ENCRYPTION_KEY=$/c\CALENDSO_ENCRYPTION_KEY='$(openssl rand -base64 32) .env"
+      - "yarn"
+      - "yarn build"
