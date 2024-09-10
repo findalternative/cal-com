@@ -20,7 +20,9 @@ jobs:
       - uses: actions/cache@v4
         id: yarn-cache
         with:
-          path: /home/runner/work/cal.com/cal.com/baserepo/.yarn      
+          path: |
+            **/node_modules
+            /home/runner/work/cal.com/cal.com/baserepo/.yarn
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
