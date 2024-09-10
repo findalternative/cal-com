@@ -19,21 +19,23 @@ jobs:
           cache-dependency-path: baserepo/yarn.lock
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: yarn config get cacheFolder
-      # - uses: actions/cache@v4
-      #   id: yarn-cache
-      #   with:
-      #     path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
-      #     key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-yarn-
-      # - name: cal.com build
-      #   run: |
-      #     cd baserepo
-      #     cp .env.example .env
-      #     sed -i '/^NEXTAUTH_SECRET=$/c\\NEXTAUTH_SECRET='$(openssl rand -base64 32) .env
-      #     sed -i '/^CALENDSO_ENCRYPTION_KEY=$/c\\CALENDSO_ENCRYPTION_KEY='$(openssl rand -base64 32) .env
-      #     export YARN_ENABLE_IMMUTABLE_INSTALLS=false
-      #     yarn
-      #     yarn build
-      #     git restore yarn.lock
+        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v4
+        id: yarn-cache
+        with:
+          path: |
+            /home/runner/work/cal.com/cal.com/baserepo/.yarn/cache
+            /home/runner/work/cal.com/cal.com/baserepo/.yarn/install-state.gz
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: cal.com build
+        run: |
+          cd baserepo
+          cp .env.example .env
+          sed -i '/^NEXTAUTH_SECRET=$/c\\NEXTAUTH_SECRET='$(openssl rand -base64 32) .env
+          sed -i '/^CALENDSO_ENCRYPTION_KEY=$/c\\CALENDSO_ENCRYPTION_KEY='$(openssl rand -base64 32) .env
+          export YARN_ENABLE_IMMUTABLE_INSTALLS=false
+          yarn
+          yarn build
+          git restore yarn.lock
