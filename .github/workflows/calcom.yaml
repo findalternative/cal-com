@@ -1,0 +1,25 @@
+name: cal.com build
+
+on:
+  push:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: cal.com build
+        run: |
+          cd baserepo
+          cp .env.example .env
+          sed -i '/^NEXTAUTH_SECRET=$/c\\NEXTAUTH_SECRET='$(openssl rand -base64 32) .env
+          sed -i '/^CALENDSO_ENCRYPTION_KEY=$/c\\CALENDSO_ENCRYPTION_KEY='$(openssl rand -base64 32) .env
+          export YARN_ENABLE_IMMUTABLE_INSTALLS=false
+          yarn
+          yarn build
+          git restore yarn.lock
