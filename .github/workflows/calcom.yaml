@@ -17,15 +17,10 @@ jobs:
         with:
           cache: 'yarn'
           cache-dependency-path: baserepo/yarn.lock
-      - name: Get yarn cache directory path
-        id: yarn-cache-dir-path
-        run: echo "dir=$(yarn config get cacheFolder)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v4
         id: yarn-cache
         with:
-          path: |
-            /home/runner/work/cal.com/cal.com/baserepo/.yarn/cache
-            /home/runner/work/cal.com/cal.com/baserepo/.yarn/install-state.gz
+          path: /home/runner/work/cal.com/cal.com/baserepo/.yarn      
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
