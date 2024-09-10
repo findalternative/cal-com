@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           cache: 'yarn'
-          cache-dependency-path: baserepo/package-lock.json
+          cache-dependency-path: baserepo/yarn.lock
       - name: cal.com build
         run: |
           cd baserepo
