@@ -23,6 +23,11 @@ jobs:
             yarn
             yarn build
             git restore yarn.lock
+      - save_cache:
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+          paths:
+            - ./node_modules
+            - ./.next/cache
 
 workflows:
   calcom-build-workflow:
