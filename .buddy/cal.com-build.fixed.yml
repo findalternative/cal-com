@@ -18,4 +18,3 @@
     - "export YARN_ENABLE_IMMUTABLE_INSTALLS=false"
     - "yarn"
     - "yarn build"
-    - "git restore yarn.lock"
